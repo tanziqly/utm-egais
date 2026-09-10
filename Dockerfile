@@ -7,9 +7,9 @@ ENV DEBIAN_FRONTEND=noninteractive TZ=Europe/Moscow
 # Debian 11 is archived, so use its immutable archive and accept its expired
 # Release metadata instead of the no-longer-refreshed security mirror.
 RUN sed -i \
-      -e 's|deb.debian.org/debian-security|archive.debian.org/debian-security|g' \
-      -e 's|deb.debian.org/debian|archive.debian.org/debian|g' \
+      -e '/debian-security/d' \
       -e '/bullseye-updates/d' \
+      -e 's|deb.debian.org/debian|archive.debian.org/debian|g' \
       /etc/apt/sources.list \
     && dpkg --add-architecture i386 \
     && apt-get -o Acquire::Check-Valid-Until=false update \
