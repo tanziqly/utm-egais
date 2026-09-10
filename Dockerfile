@@ -3,8 +3,16 @@ FROM debian:11-slim
 ARG UTM_DEB=u-trans-4.2.0-2644-i386.deb
 ENV DEBIAN_FRONTEND=noninteractive TZ=Europe/Moscow
 
-RUN dpkg --add-architecture i386 \
-    && apt-get update \
+# UTM needs legacy 32-bit OpenSSL 1.1, which is available in Debian 11.
+# Debian 11 is archived, so use its immutable archive and accept its expired
+# Release metadata instead of the no-longer-refreshed security mirror.
+RUN sed -i \
+      -e 's|deb.debian.org/debian-security|archive.debian.org/debian-security|g' \
+      -e 's|deb.debian.org/debian|archive.debian.org/debian|g' \
+      -e '/bullseye-updates/d' \
+      /etc/apt/sources.list \
+    && dpkg --add-architecture i386 \
+    && apt-get -o Acquire::Check-Valid-Until=false update \
     && apt-get install -y --no-install-recommends \
       acl ca-certificates libccid libc6:i386 libncurses5:i386 \
       libpcsclite1 libpcsclite1:i386 libssl1.1:i386 libstdc++6:i386 \
