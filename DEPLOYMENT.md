@@ -16,7 +16,13 @@
    git clone <URL_РЕПОЗИТОРИЯ> /opt/utm-egais
    ```
 
-2. Скачайте пакет УТМ из личного кабинета ЕГАИС и положите его рядом с `Dockerfile`. Для версии 4.2.0-2644 имя файла должно быть `u-trans-4.2.0-2644-i386.deb`.
+2. Скачайте пакет УТМ из релиза и положите его рядом с `Dockerfile`:
+
+   ```bash
+   cd /opt/utm-egais
+   curl -fL -o u-trans-4.2.0-2644-i386.deb \
+     https://github.com/tanziqly/utm-egais/releases/download/utm-4.2.0-2644/u-trans-4.2.0-2644-i386.deb
+   ```
 3. Подключите Rutoken и убедитесь, что он виден:
 
    ```bash
