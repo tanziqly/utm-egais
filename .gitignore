@@ -1,0 +1,7 @@
+# The UTM distribution is supplied through the EGAIS personal account.
+# It is too large for a regular GitHub commit and is not published here.
+u-trans-*.deb
+
+# Local Docker and operating-system artefacts
+.DS_Store
+*.log

@@ -1,0 +1,25 @@
+services:
+  utm-egais:
+    build:
+      context: .
+      args:
+        UTM_DEB: u-trans-4.2.0-2644-i386.deb
+    container_name: utm-egais
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    device_cgroup_rules:
+      - "c 189:* rmw"
+    volumes:
+      - utm-conf:/opt/utm/transport/conf
+      - utm-db:/opt/utm/transport/db
+      - utm-xml:/opt/utm/transport/xml
+      - utm-logs:/opt/utm/transport/l
+
+volumes:
+  utm-conf:
+  utm-db:
+  utm-xml:
+  utm-logs:

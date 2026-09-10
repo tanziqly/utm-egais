@@ -1,0 +1,6 @@
+.git
+*.log
+README.md
+DEPLOYMENT.md
+*.deb
+!u-trans-4.2.0-2644-i386.deb
