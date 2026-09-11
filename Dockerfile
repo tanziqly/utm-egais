@@ -1,21 +1,15 @@
-FROM debian:11-slim
+FROM debian:trixie-slim
 
 ARG UTM_DEB=u-trans-4.2.0-2644-i386.deb
 ENV DEBIAN_FRONTEND=noninteractive TZ=Europe/Moscow
 
-# UTM needs legacy 32-bit OpenSSL 1.1, which is available in Debian 11.
-# Debian 11 is archived, so use its immutable archive and accept its expired
-# Release metadata instead of the no-longer-refreshed security mirror.
-RUN sed -i \
-      -e '/debian-security/d' \
-      -e '/bullseye-updates/d' \
-      -e 's|deb.debian.org/debian|archive.debian.org/debian|g' \
-      /etc/apt/sources.list \
-    && dpkg --add-architecture i386 \
-    && apt-get -o Acquire::Check-Valid-Until=false update \
+# UTM 4.2.0-2644 is used successfully on Debian 12/13.  Use current
+# Trixie repositories and its 32-bit compatibility libraries.
+RUN dpkg --add-architecture i386 \
+    && apt-get update \
     && apt-get install -y --no-install-recommends \
-      acl ca-certificates libccid libc6:i386 libncurses5:i386 \
-      libpcsclite1 libpcsclite1:i386 libssl1.1:i386 libstdc++6:i386 \
+      acl ca-certificates libccid libc6:i386 libncurses6:i386 \
+      libpcsclite1 libpcsclite1:i386 libssl3:i386 libstdc++6:i386 \
       libusb-1.0-0 libxmu6:i386 libxt6:i386 pcsc-tools pcscd \
       supervisor tzdata usbutils \
     && rm -rf /var/lib/apt/lists/* \
