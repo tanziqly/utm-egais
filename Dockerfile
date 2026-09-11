@@ -19,9 +19,13 @@ RUN dpkg --add-architecture i386 \
 RUN printf '%s\n' '#!/bin/sh' 'exit 101' > /usr/sbin/policy-rc.d \
     && chmod +x /usr/sbin/policy-rc.d
 COPY ${UTM_DEB} /tmp/utm.deb
-RUN dpkg -i /tmp/utm.deb \
-    && rm -f /tmp/utm.deb /usr/sbin/policy-rc.d \
-    && mkdir -p /var/log/supervisor /run/pcscd
+# The UTM post-install script calls supervisorctl and treats a missing socket
+# as an installation error. Start the distro Supervisor briefly for that step.
+RUN mkdir -p /var/log/supervisor /run/pcscd \
+    && /usr/bin/supervisord -c /etc/supervisor/supervisord.conf \
+    && dpkg -i /tmp/utm.deb \
+    && /usr/bin/supervisorctl shutdown \
+    && rm -f /tmp/utm.deb /usr/sbin/policy-rc.d
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY transport.conf /etc/supervisor/conf.d/utm.conf
