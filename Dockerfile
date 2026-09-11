@@ -29,7 +29,9 @@ RUN mkdir -p /var/log/supervisor /run/pcscd \
     && mkdir -p /opt/utm/l /opt/utm/transport/transportDB /opt/utm/transport/xml
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
-COPY transport.conf /etc/supervisor/conf.d/utm.conf
+# Replace the program definition supplied by UTM; do not leave two competing
+# [program:utm] sections in Supervisor's include directory.
+COPY transport.conf /etc/supervisor/conf.d/transport.conf
 COPY pcscd.conf /etc/pcscd.conf
 COPY entrypoint.sh /usr/local/bin/utm-entrypoint
 RUN chmod 0755 /usr/local/bin/utm-entrypoint
