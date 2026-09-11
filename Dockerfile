@@ -25,7 +25,8 @@ RUN mkdir -p /var/log/supervisor /run/pcscd \
     && /usr/bin/supervisord -c /etc/supervisor/supervisord.conf \
     && dpkg -i /tmp/utm.deb \
     && /usr/bin/supervisorctl shutdown \
-    && rm -f /tmp/utm.deb /usr/sbin/policy-rc.d
+    && rm -f /tmp/utm.deb /usr/sbin/policy-rc.d \
+    && mkdir -p /opt/utm/l /opt/utm/transport/transportDB /opt/utm/transport/xml
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY transport.conf /etc/supervisor/conf.d/utm.conf

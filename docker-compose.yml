@@ -14,9 +14,9 @@ services:
       - "c 189:* rmw"
     volumes:
       - utm-conf:/opt/utm/transport/conf
-      - utm-db:/opt/utm/transport/db
+      - utm-db:/opt/utm/transport/transportDB
       - utm-xml:/opt/utm/transport/xml
-      - utm-logs:/opt/utm/transport/l
+      - utm-logs:/opt/utm/l
 
 volumes:
   utm-conf:
