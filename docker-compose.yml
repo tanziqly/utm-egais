@@ -13,13 +13,12 @@ services:
     device_cgroup_rules:
       - "c 189:* rmw"
     volumes:
-      - utm-conf:/opt/utm/transport/conf
-      - utm-db:/opt/utm/transport/transportDB
-      - utm-xml:/opt/utm/transport/xml
+      # UTM creates its Derby database inside transportDB on its first start.
+      # Mount the parent so Docker does not pre-create transportDB as an empty
+      # volume mount (Derby rejects that state).
+      - utm-transport:/opt/utm/transport
       - utm-logs:/opt/utm/l
 
 volumes:
-  utm-conf:
-  utm-db:
-  utm-xml:
+  utm-transport:
   utm-logs:

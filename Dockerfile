@@ -26,7 +26,7 @@ RUN mkdir -p /var/log/supervisor /run/pcscd \
     && dpkg -i /tmp/utm.deb \
     && /usr/bin/supervisorctl shutdown \
     && rm -f /tmp/utm.deb /usr/sbin/policy-rc.d \
-    && mkdir -p /opt/utm/l /opt/utm/transport/transportDB /opt/utm/transport/xml
+    && mkdir -p /opt/utm/l /opt/utm/transport/xml
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 # Replace the program definition supplied by UTM; do not leave two competing
